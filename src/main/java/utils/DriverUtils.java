@@ -14,13 +14,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class DriverUtils {
 
-	public static WebDriver driver;
+	public WebDriver driver;
 
 	public DriverUtils(WebDriver driver) {
-		DriverUtils.driver = driver;
+		this.driver = driver;
 	}
 
-	public static void waitForPresenceOfElement(int timeToWait, By by) {
+	public void waitForPresenceOfElement(int timeToWait, By by) {
 		try {
 			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 			wait.until(ExpectedConditions.presenceOfElementLocated(by));
@@ -28,17 +28,25 @@ public class DriverUtils {
 			e.printStackTrace();
 		}
 	}
+	
+	public String getTextFromTextBox(WebElement element, int timeToWait) {
+		WebElement webElement = waitforElementToBeClickable(element, timeToWait);
+		return webElement.getAttribute("value");
+	}
+	
+	public String getTextFromTextBox(WebElement element) {
+		WebElement webElement = waitforElementToBeClickable(element, 0);
+		return webElement.getAttribute("value");
+	}
 
 	public void elementClick(WebElement element, int timeToWait) {
 		WebElement webelement = waitforElementToBeClickable(element, timeToWait);
 		webelement.click();
 	}
-	
+
 	public void elementClick(WebElement element) {
 		elementClick(element, 0);
 	}
-	
-	
 
 	public void typeTextOnElement(WebElement element, int timeToWait, String text) {
 		WebElement webelement = waitforElementToBeClickable(element, timeToWait);
@@ -52,6 +60,16 @@ public class DriverUtils {
 		typeTextOnElement(element, 0, text);
 
 	}
+	
+	public String getTextOfElement(WebElement element, int timeToWait) {
+		WebElement webelement =waitforElementToBeVisible(element, timeToWait);
+		return webelement.getText();
+	}
+	
+	public String getTextOfElement(WebElement element) {
+		return getTextOfElement(element, 0);
+	}
+
 	public WebElement waitforElementToBeClickable(WebElement element, int timeToWait) {
 		WebElement webelement = null;
 		try {
@@ -84,11 +102,20 @@ public class DriverUtils {
 		jse.executeScript("arguments[0].click()", webelement);
 	}
 
+	public void javascriptClick(WebElement element) {
+		javascriptClick(element, 0);
+	}
+
 	public void javascriptType(WebElement element, int timeToWait, String text) {
 		WebElement webelement = waitforElementToBeClickable(element, timeToWait);
 		JavascriptExecutor jse = ((JavascriptExecutor) driver);
-		jse.executeScript("arguments[0].value='"+text+"'", webelement);
+		jse.executeScript("arguments[0].value='" + text + "'", webelement);
 
+	}
+
+	public void javascriptType(WebElement element, String text) {
+
+		javascriptType(element, 0, text);
 	}
 
 	public void selectOptionInDropdown(WebElement element, int timeToWait, String option) {

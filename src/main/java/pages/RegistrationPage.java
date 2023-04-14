@@ -5,13 +5,18 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import utils.DriverUtils;
+
 public class RegistrationPage {
 
 	public WebDriver driver;
+	private DriverUtils driverUtils;
 
 	public RegistrationPage(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
+		driverUtils = new DriverUtils(driver);
+
 	}
 
 	@FindBy(css = "input[value='1'][name='agree']")
@@ -64,58 +69,60 @@ public class RegistrationPage {
 
 	public void mandatoryDetailsForRegistration(String firstName, String lastName, String email, String telephone,
 			String password) {
-		firstNameField.sendKeys(firstName);
-		lastNameField.sendKeys(lastName);
-		emailField.sendKeys(email);
-		telephoneField.sendKeys(telephone);
-		passwordField.sendKeys(password);
+		
+		driverUtils.typeTextOnElement(firstNameField, firstName);
+		driverUtils.typeTextOnElement(lastNameField, lastName);
+		driverUtils.typeTextOnElement(emailField, email);
+		driverUtils.typeTextOnElement(telephoneField, telephone);
+		driverUtils.typeTextOnElement(passwordField, password);
+		
 
 	}
 
 	public void getConfirmPassword() {
-		String confirmPassword = passwordField.getAttribute("value");
-		confirmPasswordField.sendKeys(confirmPassword);
+		String confirmPassword = driverUtils.getTextFromTextBox(passwordField);
+		driverUtils.typeTextOnElement(confirmPasswordField, confirmPassword);
 	}
 
 	public void clickOnPrivacyPolicy() {
-		privacyPolicyRadioButton.click();
+		driverUtils.elementClick(privacyPolicyRadioButton);
 	}
 
 	public AccountSuccessPage clickOnContinueButton() {
-		continueButton.click();
+		driverUtils.elementClick(continueButton);
 		return new AccountSuccessPage(driver);
 	}
 
 	public void selectYesForNewsletter() {
-		newsletterOptions.click();
+		driverUtils.elementClick(newsletterOptions);
 	}
 
 	public String duplicateEmailWarning() {
-		return duplicateEmailWarning.getText();
+		return driverUtils.getTextOfElement(duplicateEmailWarning);
 	}
 
 	public String invalidEmailWarning() {
-		return invalidEmailWarning.getText();
+		return driverUtils.getTextOfElement(invalidEmailWarning);
 	}
 
 	public String invalidFirstNameWarning() {
-		return invalidFirstNameWarning.getText();
+		return driverUtils.getTextOfElement(invalidFirstNameWarning);
 	}
 
 	public String invalidLastNameWarning() {
-		return invalidLastNameWarning.getText();
+		return driverUtils.getTextOfElement(invalidLastNameWarning);
 	}
 
 	public String invalidTelephoneWarning() {
-		return invalidTelephoneWarning.getText();
+		return driverUtils.getTextOfElement(invalidTelephoneWarning);
 	}
 
 	public String invalidPasswordWarning() {
-		return invalidPasswordWarning.getText();
+		return driverUtils.getTextOfElement(invalidPasswordWarning);
 	}
 
 	public String privacyPolicyWarning() {
-		return privacyPolicyWarning.getText();
+		return driverUtils.getTextOfElement(privacyPolicyWarning);
 	}
 
 }

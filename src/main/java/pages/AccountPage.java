@@ -5,14 +5,18 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import utils.DriverUtils;
+
 public class AccountPage {
 
 	public WebDriver driver;
+	private DriverUtils driverUtils;
 	
 	
 	public AccountPage(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
+		driverUtils = new DriverUtils(driver);
 	}
 	
 
@@ -24,7 +28,7 @@ public class AccountPage {
 
 	
 	public String getsuccessfulLoginMsg() {
-		return successfulLoginMsg.getText();
+		return driverUtils.getTextOfElement(successfulLoginMsg);
 		
 	}
 

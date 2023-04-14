@@ -12,11 +12,12 @@ public class AccountSuccessPage {
 
 	
 	public WebDriver driver;
-	
+	private DriverUtils driverUtils;
 	
 	public AccountSuccessPage(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
+		driverUtils = new DriverUtils(driver);
 	}
 	
 	@FindBy(css="div[id='content'] h1")
@@ -28,12 +29,13 @@ public class AccountSuccessPage {
 	
 	
 	public void waitForsuccessfulRegistrationMsg() {
-		DriverUtils.waitForPresenceOfElement(5, registrationSuccessfulMsg);
+		driverUtils.waitForPresenceOfElement(5, registrationSuccessfulMsg);
 
 	}
 
 	public String getsuccessfulRegistrationMsg() {
-		return successfulRegistrationMsg.getText();
+		return driverUtils.getTextOfElement(successfulRegistrationMsg);
+		
 		
 	}
 }

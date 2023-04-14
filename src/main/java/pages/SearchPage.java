@@ -5,13 +5,18 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import utils.DriverUtils;
+
 public class SearchPage {
 	public WebDriver driver;
-	
+	private DriverUtils driverUtils;
+
 	
 	public SearchPage(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
+		driverUtils = new DriverUtils(driver);
+
 	}
 	
 	
@@ -32,7 +37,7 @@ public class SearchPage {
 	//p[contains(text(),'There is no product that matches the search criter')]
 	
 	public String getInvalidProductMsg() {
-		return invalidsearchedProduct.getText();
+		return driverUtils.getTextOfElement(invalidsearchedProduct);
 		
 		
 	}

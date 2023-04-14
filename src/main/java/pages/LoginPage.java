@@ -5,13 +5,17 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import utils.DriverUtils;
+
 public class LoginPage {
 
-	WebDriver driver;
+	public WebDriver driver;
+	private DriverUtils driverUtils;
 
 	public LoginPage(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
+		driverUtils = new DriverUtils(driver);
 
 	}
 
@@ -31,19 +35,19 @@ public class LoginPage {
 	
 	
 	public void emailField(String Email) {
-		emailField.sendKeys(Email);
+		driverUtils.typeTextOnElement(emailField, Email);
 	}
 
 	public void passwordField(String password) {
-		passwordField.sendKeys(password);
+		driverUtils.typeTextOnElement(passwordField, password);
 	}
 	
 	public AccountPage clickOnLoginSubmit() {
-		loginSubmitButton.click();
+		driverUtils.elementClick(loginSubmitButton);
 		return new AccountPage(driver);
 	}
 	
 	public String getInvalidCredentialMsg() {
-		return invalidCredentialMsg.getText();
+		return driverUtils.getTextOfElement(invalidCredentialMsg);
 	}
 }
